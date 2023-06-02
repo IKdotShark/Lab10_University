@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.text.DecimalFormat;
 import static java.lang.Math.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class lab_10 {
     public static int num1_a(char[] arr) {
@@ -110,6 +112,71 @@ public class lab_10 {
         }
         return res1;
     }
+    private static List<double[][]> num13_read(String file) throws IOException {
+        List<double[][]> array1 = new ArrayList<>();
+        List<String> line = Files.readAllLines(Paths.get(file));
+        int n = Integer.parseInt(line.get(0));
+        line.remove(0);
+        while (!line.isEmpty()) {
+            double[][] matrix = new double[n][n + 1];
+            for (int i = 0; i < n; i++) {
+                String[] value = line.get(0).split(" ");
+                for (int j = 0; j < n + 1; j++) {
+                    matrix[i][j] = Double.parseDouble(value[j]);
+                }
+                line.remove(0);
+            }
+            array1.add(matrix);
+        }
+        return array1;
+    }
+    private static List<double[]> num13_readSLAU(String file) throws IOException {
+        List<double[]> arrayS = new ArrayList<>();
+        List<String> line = Files.readAllLines(Paths.get(file));
+        while (!line.isEmpty()) {
+            String[] values = line.get(0).split(" ");
+            double[] s = new double[values.length];
+            for (int i = 0; i < values.length; i++) {
+                s[i] = Double.parseDouble(values[i]);
+            }
+            arrayS.add(s);
+            line.remove(0);
+        }
+        return arrayS;
+    }
+    private static double[] check(double[][] array, double[] array1) {
+        int n = array.length;
+        double[] res = new double[n];
+        for (int i = 0; i < n; i++) {
+            double sum = 0;
+            for (int j = 0; j < n; j++) {
+                sum += array[i][j] * array1[j];
+            }
+            res[i] = sum;
+        }
+        boolean f = true;
+        for (int i = 0; i < n; i++) {
+            if (Math.abs(res[i] - array[i][n]) > 1e-6) {
+                f = false;
+                break;
+            }
+        }
+        return f ? array1 : res;
+    }
+    private static void write(String file, List<double[]> resh) throws IOException {
+        try (BufferedWriter fwr = new BufferedWriter(new FileWriter(file))) {
+            for (double[] array1 : resh) {
+                for (int i = 0; i < array1.length; i++) {
+                    fwr.write(Double.toString(array1[i]));
+                    if (i < array1.length - 1) {
+                        fwr.write(" ");
+                    }
+                }
+                fwr.newLine();
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException{
         Scanner in = new Scanner(System.in);
         System.out.println("Input number of ex");
@@ -134,7 +201,7 @@ public class lab_10 {
                 fwr.close();
                 break;
             case 2:
-                File file1 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t2.txt");
+                File file1 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t2.txt");
                 FileWriter fwr2 = new FileWriter(file1);
                 String[][] array = table(9, 9);
                 StringBuilder sb = new StringBuilder();
@@ -149,7 +216,7 @@ public class lab_10 {
                 fwr2.close();
                 break;
             case 3:
-                File file3 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t3.txt");
+                File file3 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t3.txt");
                 Pattern pattern = Pattern.compile("(\\w+)\\p{P}");
                 BufferedReader br3 = new BufferedReader(new FileReader(file3));
                 while ((line = br3.readLine()) != null) {
@@ -160,8 +227,8 @@ public class lab_10 {
                 }
                 break;
             case 4:
-                File file41 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t4.txt");
-                File file42 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t4.1.txt");
+                File file41 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t4.txt");
+                File file42 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t4.1.txt");
                 Set<String> words = new HashSet<>();
                 Pattern pattern4 = Pattern.compile("[_.,;:\\n\\t!?\\s]+");
                 Pattern vowelPattern = Pattern.compile("[аеёиоуыэюяaeiouy]+");
@@ -188,8 +255,8 @@ public class lab_10 {
                 fwr4.close();
                 break;
             case 5:
-                File file5 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t5.txt");
-                File fileout = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t5.2.txt");
+                File file5 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t5.txt");
+                File fileout = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t5.2.txt");
                 BufferedReader fread1 = new BufferedReader(new FileReader(file5));
                 BufferedWriter fwr5 = new BufferedWriter(new FileWriter(fileout, true));
                 while ((line = fread1.readLine()) != null) {
@@ -202,8 +269,8 @@ public class lab_10 {
                 fwr5.close();
                 break;
             case 6:
-                File file6 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t6.txt");
-                File fileout6 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t6.1.txt");
+                File file6 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t6.txt");
+                File fileout6 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t6.1.txt");
                 BufferedReader fread6 = new BufferedReader(new FileReader(file6));
                 BufferedWriter fwr6 = new BufferedWriter(new FileWriter(fileout6, true));
                 String current = "";
@@ -233,7 +300,7 @@ public class lab_10 {
                 fwr6.close();
                 break;
             case 7:
-                File file7 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t7.txt");
+                File file7 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t7.txt");
                 FileWriter fwr7 = new FileWriter(file7);
                 fwr7.write("Постановка задачи\n\nx >= -3 && x <= 3; x += 0.5\nесли x <= -1, то f(x) = cos(x) - sin(x)\nиначе f(x) = tan(x)\n\nВЫВОД\n\n"
                         +"Функция\t\s\s\s\sЗначение f(x)\n\n");
@@ -249,7 +316,7 @@ public class lab_10 {
                 break;
                 //retry
             case 8:
-                File file8 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t8.txt");
+                File file8 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t8.txt");
                 FileWriter fwr8 = new FileWriter(file8, true);
                 fwr8.write("Постановка задачи\n\nПервая фигура\nx  [-9;4]\n"
                         +"Первая область\ny > 0.25 * x - 1\ny > 1.25 * x - 1\ny > - 4 * x - 18\ny < 0.5*x + 4.5\n\n"
@@ -274,7 +341,7 @@ public class lab_10 {
                 break;
             case 9:
                 int count = 1;
-                File file9 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t9.txt");
+                File file9 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t9.txt");
                 FileWriter fwr9= new FileWriter(file9, true);
                 BufferedReader fread9 = new BufferedReader(new FileReader(file9));
                 String[][] publishers = new String[count][18];
@@ -346,7 +413,7 @@ public class lab_10 {
                 }
                 break;
             case 10:
-                File file10 = new File("C:\\Users\\ivanx\\OneDrive\\Рабочий стол\\t10.txt");
+                File file10 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t10.txt");
                 FileWriter fwr10 = new FileWriter(file10, true);
                 x = 0;
                 System.out.println("Введите значение x");
@@ -372,17 +439,78 @@ public class lab_10 {
                 fwr10.close();
                 break;
             case 11:
-
+                File file11 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\text11.txt");
+                FileWriter fwr11 = new FileWriter(file11);
+                DecimalFormat dec = new DecimalFormat("#.#");
+                fwr11.write("Формула z = x^3*sin(y^2) + x^2*y^3,\n" +
+                        "x: [-3;2]; x+=0.1, y: [-2;1]; y+=0.2\n\n" +
+                        "\t\t\t\t\t\t\tМатрица значений Z\n\nX/Y\t");
+                for (double y = -2; y <= 1; y+=0.2){
+                    fwr11.write(dec.format(y) + "\t");
+                }
+                fwr11.write("\n");
+                for ( x = -3; x <= 2; x+=0.1){
+                    fwr11.write(dec.format(x) + "\t");
+                    for (double y = -2; y <= 1; y+=0.2){
+                        Double z = pow(x, 3)*sin(pow(y, 2))+pow(x,2)*pow(y, 3);
+                        fwr11.write(dec.format(z) + "\t");
+                    }
+                    fwr11.write("\n");
+                }
+                fwr11.flush();
+                fwr11.close();
                 break;
             case 12:
-
+                File file12 = new File("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t12.txt");
+                BufferedReader fread12 = new BufferedReader(new FileReader(file12));
+                FileWriter fwr12 = new FileWriter(file12, true);
+                String text = fread12.readLine();
+                String[] strings = text.split(";");
+                String[] searchWords = {
+                        "учащийся",
+                        "обучающийся",
+                        "ученик",
+                        "студент",
+                        "бакалавр",
+                        "магистр",
+                        "2020"
+                };
+                String[] replacements = {
+                        "студент",
+                        "отчисленный",
+                        "специалист",
+                        "выпускник",
+                        "магистр",
+                        "аспирант",
+                        "2021"
+                };
+                for (int i = 0; i < strings.length; i++) {
+                    String originalString = strings[i];
+                    String modifiedString = originalString;
+                    for (int j = 0; j < searchWords.length; j++) {
+                        modifiedString = modifiedString.replaceAll(searchWords[j], replacements[j]);
+                    }
+                    fwr12.write("\nИзмененная строка: " + modifiedString + "\n");
+                }
+                fwr12.flush();
+                fwr12.close();
                 break;
             case 13:
+                String out = "C:\\Users\\User\\Desktop\\ \\Лаба 10\\t133.txt";
+                List<double[][]> f1 = num13_read("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t131.txt");
+                List<double[]> f2 = num13_readSLAU("C:\\Users\\User\\Desktop\\ \\Лаба 10\\t132.txt");
+                List<double[]> corrected = new ArrayList<>();
+                for (int i = 0; i < f1.size(); i++) {
+                    double[][] array13 = f1.get(i);
+                    double[] array113 = f2.get(i);
+                    double[] array213 = check(array13, array113);
+                    corrected.add(array213);
+                }
+                write(out, corrected);
+                break;
+            case 14:
 
                 break;
-          //  case 14:
-
-          //      break;
             case 15:
 
                 break;
